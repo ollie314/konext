@@ -7,7 +7,7 @@ from flashpolicyd import policy_server
 
 try:
     policy_server(843, './flashpolicy.xml').run()
-    Process(target=subprocess.call, args=(('server.py', ), )).start()
+    Process(target=subprocess.call, args=(('./server.py', ), )).start()
 except Exception, e:
     print >> sys.stderr, e
     sys.exit(1)
