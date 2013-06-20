@@ -78,7 +78,7 @@ class policy_server(object):
         print >>sys.stderr, str
 
 
-def main():
+if __name__ == '__main__':
     parser = optparse.OptionParser(usage = '%prog [--port=PORT] --file=FILE',
                                    version='%prog ' + str(VERSION))
     parser.add_option('-p', '--port', dest='port', type=int, default=843,
@@ -98,7 +98,3 @@ def main():
         sys.exit(1)
     except KeyboardInterrupt:
         pass
-
-
-if __name__ == '__main__':
-    main()
