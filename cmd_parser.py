@@ -166,7 +166,7 @@ class Parser:
             result += "%02X" % (raw_data[1] & 0x3F)
         else:
             for hex_val in raw_data[2:]:
-                result += "%02X " % hex_val
+                result += "%02X" % hex_val
         return result.strip().upper()
 
 # main programm only used for testing purpose
