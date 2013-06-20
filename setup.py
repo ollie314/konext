@@ -1,5 +1,7 @@
 __author__ = 'mehdi'
 
+import os
+import shutil
 from liblogging import init_logger
 
 
@@ -13,3 +15,16 @@ def setup_config(app_name):
         tmp = item.split('=')
         app_config[tmp[0]] = tmp[1].rstrip()
     return app_config
+
+
+def mark_pid_on_fs():
+    pid = os.getpid()
+    target_dir = '/tmp/konext'
+
+    if os.path.exists(target_dir):
+        shutil.rmtree(target_dir, True)
+
+    os.makedirs(target_dir)
+
+    with open(os.path.join(target_dir, ".pid"), 'w') as temp_file:
+        temp_file.write("%d" % pid)

@@ -38,6 +38,10 @@ SENDING_PROCESS = 'groupsocketsend'
 WATCHING_PROCESS = 'grouplisten'
 UNWATCHING_PROCESS = 'grouplisten'
 
+KNX_NONE = -1
+KNX_READ_FLAG = 0x00
+KNX_RESPONSE_FLAG = 0x40
+KNX_WRITE_FLAG = 0x80
 
 def get_process_for_command(command):
     return {
@@ -78,6 +82,14 @@ def send_command(command, processor):
     ack = get_ack(command_header)
     return "%s %s\n%s\n" % (ack, response, END_ACK)
 
+def get_command_kind(command_header):
+    return {
+        "RE": KNX_READ_FLAG,
+        "SE": KNX_WRITE_FLAG,
+        "WE": KNX_RESPONSE_FLAG,
+        "UE": KNX_NONE,
+        "QE": KNX_NONE
+    }[command_header]
 
 def get_ack(statement):
     return {

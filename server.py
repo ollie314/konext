@@ -1,14 +1,16 @@
-#!/usr/bin/python           # This is server.py file
+#!/usr/bin/python
+# This is server.py file
+import os
 import sys
 import socket_engine
-from setup import setup_config
+from setup import setup_config, mark_pid_on_fs
 from liblogging import init_logger
 import liblogging
 
 
 if __name__ == '__main__':
     config = setup_config("konext")
-    port = int(config['port'])                       # Reserve a port for your service.
+    port = int(config['port'])                  # Port to listening on
     address = config['server_address']          # Address to listening on
     app_name = config['app_name']               # Name of the application
 
@@ -21,7 +23,9 @@ if __name__ == '__main__':
 
     # checking availability ...
     if not socket_engine.check_server(address, port):
-        print("Port or address is busy. Please refer to logs to know more about the failure")
+        liblogging.log("Port or address is busy. Please refer to logs to know more about the failure", liblogging.ERROR)
         sys.exit(1)     # exiting due to error ...
 
+    mark_pid_on_fs()
+    liblogging.log("Server starting with pid [%d]" % os.getpid())
     socket_engine.configure_and_start_server(config)

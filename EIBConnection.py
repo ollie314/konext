@@ -173,9 +173,9 @@ class EIBConnection:
         return 0
 
     def __EIBGetAPDU_Complete(self):
-        self.__complete = None;
+        self.__complete = None
         if self.__EIB_GetRequest() == -1:
-            return -1;
+            return -1
         if (((self.data[0]) << 8) | (self.data[0 + 1])) != 37 or len(self.data) < 2:
             self.errno = errno.ECONNRESET
             return -1
@@ -233,7 +233,7 @@ class EIBConnection:
 
 
     def EIBGetBusmonitorPacket_async(self, buf):
-        ibuf = [0] * 2;
+        ibuf = [0] * 2
         self.buf = buf
         self.__complete = self.__EIBGetBusmonitorPacket_Complete;
         return 0
@@ -245,22 +245,27 @@ class EIBConnection:
         return self.EIBComplete()
 
     def __EIBGetGroup_Src_Complete(self):
-        self.__complete = None;
+        self.__complete = None
+
         if self.__EIB_GetRequest() == -1:
-            return -1;
+            return -1
+
         if (((self.data[0]) << 8) | (self.data[0 + 1])) != 39 or len(self.data) < 6:
             self.errno = errno.ECONNRESET
             return -1
-        if self.ptr5 != None:
+
+        if not(self.ptr5 is None):
             self.ptr5.data = (((self.data[2]) << 8) | (self.data[2 + 1]))
-        if self.ptr6 != None:
+
+        if not(self.ptr6 is None):
             self.ptr6.data = (((self.data[4]) << 8) | (self.data[4 + 1]))
+
         self.buf.buffer = self.data[6:]
         return len(self.buf.buffer)
 
 
     def EIBGetGroup_Src_async(self, buf, src, dest):
-        ibuf = [0] * 2;
+        ibuf = [0] * 2
         self.buf = buf
         self.ptr5 = src
         self.ptr6 = dest
@@ -1378,7 +1383,7 @@ class EIBConnection:
             ibuf[4] = 0xff
         else:
             ibuf[4] = 0x00
-        ibuf[0] = 0
+            ibuf[0] = 0
         ibuf[1] = 38
         if self.__EIB_SendRequest(ibuf) == -1:
             return -1;
@@ -1630,9 +1635,8 @@ class EIBConnection:
             return -1;
         return self.sendlen
 
-
     def EIBSendGroup(self, dest, data):
-        ibuf = [0] * 4;
+        ibuf = [0] * 4
         ibuf[2] = ((dest >> 8) & 0xff)
         ibuf[3] = ((dest) & 0xff)
         if len(data) < 2:
@@ -1643,12 +1647,12 @@ class EIBConnection:
         ibuf[0] = 0
         ibuf[1] = 39
         if self.__EIB_SendRequest(ibuf) == -1:
-            return -1;
+            return -1
         return self.sendlen
 
 
     def EIBSendTPDU(self, dest, data):
-        ibuf = [0] * 4;
+        ibuf = [0] * 4
         ibuf[2] = ((dest >> 8) & 0xff)
         ibuf[3] = ((dest) & 0xff)
         if len(data) < 2:

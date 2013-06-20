@@ -17,8 +17,8 @@ FATAL = logging.FATAL
 
 def init_logger(server_log_format, server_logging_name, server_logging_file, max_logfile_size=1000000, nb_logfile=5):
     # initialize logging ...
-    #logging.basicConfig(format=server_log_format, stream=sys.stdout, level=logging.DEBUG)
-    logging.basicConfig(format=server_log_format,  level=logging.INFO, filename=server_logging_file)
+    # logging.basicConfig(format=server_log_format, stream=sys.stdout, level=logging.DEBUG)
+    logging.basicConfig(format=server_log_format,  level=logging.DEBUG, filename=server_logging_file)
     logger = logging.getLogger(server_logging_name)
     formatter = logging.Formatter(server_log_format)
 
