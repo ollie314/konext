@@ -13,6 +13,7 @@ from __future__ import with_statement
 import sys
 import optparse
 import socket
+from socket import gethostbyname
 import thread
 import exceptions
 import contextlib
@@ -75,7 +76,8 @@ class policy_server(object):
             self.log('Error handling connection from %s: %s' % (addrstr, e[1]))
 
     def log(self, str):
-        print >>sys.stderr, str
+        return False
+        # print >>sys.stderr, str
 
 
 if __name__ == '__main__':

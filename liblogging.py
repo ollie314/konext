@@ -29,7 +29,7 @@ def init_logger(server_log_format, server_logging_name, server_logging_file, max
     logger.addHandler(fh)
 
     # create console handler with a higher log level
-    ch = logging.StreamHandler(stream=sys.stdout)
+    ch = logging.StreamHandler(strm=sys.stdout)
     ch.setLevel(logging.DEBUG)
     ch.setFormatter(formatter)
     logger.addHandler(ch)

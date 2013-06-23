@@ -6,9 +6,14 @@ import socket_engine
 from setup import setup_config, mark_pid_on_fs
 from liblogging import init_logger
 import liblogging
+from flashpolicyd import policy_server
 
 
 if __name__ == '__main__':
+
+    print "Trying to start the flash policy daemon"
+    policy_server(843, './flashpolicy.xml').run()
+
     config = setup_config("konext")
     port = int(config['port'])                  # Port to listening on
     address = config['server_address']          # Address to listening on
