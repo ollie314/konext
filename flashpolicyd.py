@@ -17,12 +17,14 @@ from socket import gethostbyname
 import thread
 import exceptions
 import contextlib
+import threading
 
 VERSION = 0.1
 
 
-class policy_server(object):
+class policy_server(threading.Thread):
     def __init__(self, port, path):
+        threading.Thread.__init__(self)
         self.port = port
         self.path = path
         self.policy = self.read_policy(path)
@@ -38,6 +40,7 @@ class policy_server(object):
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.bind(('', port))
         self.sock.listen(5)
+
     def read_policy(self, path):
         with file(path, 'rb') as f:
             policy = f.read(10001)
