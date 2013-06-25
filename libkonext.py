@@ -17,6 +17,7 @@ READ = "RE"
 SEND = "SE"
 WATCH = "WE"
 UNWATCH = "UE"
+TEST = "TE"
 BYE = "QE"
 
 HELO_PREFIX = "CH"
@@ -30,6 +31,7 @@ READ_ACK = "dE"
 WATCH_ACK = "eE"
 UNWATCH_ACK = WATCH_ACK
 SEND_ACK = "sE"
+TEST_ACK = "cE"
 END_ACK = "aE"
 BYE_ACK = "qE"
 
@@ -88,6 +90,7 @@ def get_command_kind(command_header):
         "SE": KNX_WRITE_FLAG,
         "WE": KNX_RESPONSE_FLAG,
         "UE": KNX_NONE,
+        "TE": KNX_NONE,
         "QE": KNX_NONE
     }[command_header]
 
@@ -98,6 +101,7 @@ def get_ack(statement):
         SEND: SEND_ACK,
         WATCH: WATCH_ACK,
         UNWATCH: UNWATCH_ACK,
+        TEST: TEST_ACK,
         BYE: BYE_ACK
     }[statement]
 
@@ -111,5 +115,6 @@ if __name__ == '__main__':
     assert get_ack(SEND) == SEND_ACK
     assert get_ack(WATCH) == WATCH_ACK
     assert get_ack(UNWATCH) == WATCH_ACK
+    assert get_ack(TEST) == TEST_ACK
     assert get_ack(BYE) == BYE_ACK
     print "Done !\n"

@@ -9,6 +9,7 @@ READ_CMD_REGEX = "^RE\s\d{1,3}(?:\/\d{1,3}){0,2}(?:,\d{1,3}(?:\/\d{1,3}){0,2})*$
 SEND_CMD_REGEX = "^SE\s\d{1,3}(?:\/\d{1,3}){0,2}=[A-Za-z0-9]+(?:,\d{1,3}(?:\/\d{1,3}){0,2}=[A-Za-z0-9]+)*$"
 WATCH_CMD_REGEX = "^WE\s\d{1,3}(?:\/\d{1,3}){0,2}(?:,\d{1,3}(?:\/\d{1,3}){0,2})*$"
 UNWATCH_CMD_REGEX = "^UE\s\d{1,3}(?:\/\d{1,3}){0,2}(?:,\d{1,3}(?:\/\d{1,3}){0,2})*$"
+TEST_CMD_REGEX = "^TE$"
 G_ADDR_REGEX = "^(\d{1,3})(?:(?:\/(\d{1,3}))(?:\/(\d{1,3}))?)?$"
 
 CORS_REGEX = "^\<.*\>"
@@ -27,6 +28,7 @@ class Parser:
         self.send_cmd = re.compile(SEND_CMD_REGEX)
         self.watch_cmd = re.compile(WATCH_CMD_REGEX)
         self.unwatch_cmd = re.compile(UNWATCH_CMD_REGEX)
+        self.test_cmd = re.compile(TEST_CMD_REGEX)
         self.g_addr = re.compile(G_ADDR_REGEX)
         self.cors_regex = re.compile(CORS_REGEX)
 
@@ -43,6 +45,8 @@ class Parser:
             return self.is_valid_watch_command(cmd)
         if func == 'is_valid_unwatch_command':
             return self.is_valid_unwatch_command(cmd)
+        if func == 'is_valid_test_command':
+            return self.is_valid_test_command(cmd)
 
         return False
 
@@ -61,6 +65,15 @@ class Parser:
             log("Match detected for command [%s]" % command, DEBUG)
             return True
         log("Validating error for command [%s]" % command, DEBUG)
+        return False
+
+    def is_valid_test_command(self, command):
+        log("Validating format for test command [%s]" % command, DEBUG)
+        match = self.test_cmd.match(command)
+        if match:
+            log("Match detected for test command [%s]" % command, DEBUG)
+            return True
+        log("Validating error for test command [%s]" % command, DEBUG)
         return False
 
     def is_valid_helo_command(self, command):

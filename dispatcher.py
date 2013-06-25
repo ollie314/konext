@@ -313,6 +313,11 @@ class Dispatcher(threading.Thread):
                 msg = "%s\n" % (libkonext.get_ack(header) % self.name)
                 self.send_back(msg)
                 self.logged_in = True
+            elif header == libkonext.TEST:
+                self.debug("Receive a test command [%s] from %s" % (command, self.client_address))
+                msg = "%s\n" % libkonext.get_ack(libkonext.TEST)
+                self.send_back(msg)
+                self.debug("Processing complete for command [%s] (TEST) from %s" % (command, self.client_address))
             else:
                 try:
                     #
