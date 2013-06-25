@@ -12,7 +12,8 @@ from flashpolicyd import policy_server
 if __name__ == '__main__':
 
     print "Trying to start the flash policy daemon"
-    policy_server(843, './flashpolicy.xml').run()
+    server = policy_server(843, './flashpolicy.xml')
+    server.start()
 
     config = setup_config("konext")
     port = int(config['port'])                  # Port to listening on
